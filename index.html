@@ -62,7 +62,7 @@
         font-size: 0.8rem;
         text-align: center;
         text-decoration: none;
-        background: rgb(222, 22, 55);
+        background: rgb(222, 22, 55, var(--alpha));
       }
 
       .p-WIP {
@@ -84,7 +84,8 @@
       /* Body contents styling */
 
       button {
-        background: rgb(9, 139, 140);
+        --alpha: 0.8;
+        background: rgb(9, 139, 140, var(--alpha));
         border: 1px solid transparent;
         border-radius: 4px;
         box-sizing: border-box;
@@ -99,6 +100,10 @@
         padding: 0.75rem 1rem;
         text-align: center;
         text-decoration: none;
+      }
+
+      button:hover {
+        --alpha: 1;
       }
 
       .clicked {
@@ -159,7 +164,7 @@
         font-size: 0.8rem;
         text-align: center;
         text-decoration: none;
-        background: #CE9C47;
+        background: rgb(206, 156, 71, var(--alpha));
       }
 
       /* Table styling */
@@ -379,8 +384,8 @@
           <p class="p-WIP">
             Hi, thanks for taking an interest in my little project!
             <br><br>I have prepared this Sankey diagram as a proof of concept for a potential solution to a key problem in my role, but before you use it for any decisions you deserve to know that:
-            <br><br>1. This is still a <b>work-in-progress</b> and has not gone through anyone in analytics or been validated.
-            <br><br>2. <b>I am an idiot when it comes to data.</b> My degree is in philosophy, I have <b>zero</b> formal training in this, and am likely to have made mistakes.
+            <br><br>1. &nbsp&nbspThis is still a <b>work-in-progress</b> and has not gone through anyone in analytics or been validated.
+            <br><br>2. &nbsp&nbsp<b>I am an idiot when it comes to data.</b> My degree is in philosophy, I have <b>zero</b> formal training in this, and am likely to have made mistakes.
             <br><br>Please keep this in mind before you think about making decisions on the basis of this data.
             <br><br>
         </div>
@@ -650,9 +655,8 @@
 
 
     // Set chart options
-
-    var clickedButtonColour = ['#71B191'];
-    var standardButtonColour = ['#098b8c'];
+    var clickedButtonColour = ['rgb(113, 177, 145, 1)'];
+    var standardButtonColour = ['rgb(9, 139, 140,, var(--alpha)'];
 
     var boldcolors = ['#6CB2A5', '#CE9C47', '#71B191', '#D85E55',
                      '#082D5E', '#C8A172'];
