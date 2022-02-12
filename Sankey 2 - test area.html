@@ -1,0 +1,778 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/699894/7268992/css/fonts.css" />
+    <style>
+      body {
+        background-color: : #FAF9F7;
+        }
+
+      /* Font loading */
+      @font-face {
+            font-family: 'Circular Std';
+            font-weight: 900;
+            font-style: normal;
+            src: url(https://res.cloudinary.com/brandpad/raw/upload/v1617666177/t10pi6gzrtwywesu3in7) format("opentype");
+      }
+      @font-face {
+            font-family: 'Circular Std';
+            font-weight: 700;
+            font-style: normal;
+            src: url(https://res.cloudinary.com/brandpad/raw/upload/v1617666178/gin8jse99y3ioottn1y6) format("opentype");
+      }
+      @font-face {
+            font-family: 'Circular Std';
+            font-weight: 400;
+            font-style: normal;
+            src: url(https://res.cloudinary.com/brandpad/raw/upload/v1617666178/x2lrruocx9efvs7ylpwt) format("opentype");
+      }
+      @font-face {
+            font-family: 'Circular Std';
+            font-weight: 500;
+            font-style: normal;
+            src: url(https://res.cloudinary.com/brandpad/raw/upload/v1617666179/z5ddihe90il8n5gyhuu1) format("opentype");
+      }
+      /* WIP Overlay Styling + Scroll function */
+      .overlay {
+        background-color: rgba(0, 0, 0, 0.8);
+        position: absolute;
+        top: 0px;
+        bottom: -200px;
+        left: 0px;
+        right: 0px;
+        display: none;
+      }
+
+      .modelBox {
+        width: 30%;
+        min-height: 30%;
+        margin: 0px auto;
+        background-color: #fff;
+        top: 10%;
+        position: relative;
+        opacity: 1;
+        padding: 3rem 4rem;
+        border-radius: 32px;
+      }
+
+      .close {
+        font-family: 'Circular Std';
+        font-weight: 400;
+        font-size: 0.8rem;
+        text-align: center;
+        text-decoration: none;
+        background: rgb(222, 22, 55);
+      }
+
+      .p-WIP {
+        text-align: left;
+        font-size: 1rem;
+        font-weight: 400;
+      }
+
+      .scrollable-place {
+            height: 1000px;
+        }
+
+      .stop-scrolling {
+          height: 100%;
+          overflow: hidden;
+      }
+
+
+      /* Body contents styling */
+
+      button {
+        background: rgb(9, 139, 140);
+        border: 1px solid transparent;
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: rgb(250, 249, 247);
+        cursor: pointer;
+        display: inline-block;
+        font-family: 'Circular Std';
+        font-weight: 400;
+        font-size: 0.8rem;
+        line-height: 1rem;
+        margin: 0.25rem 0px;
+        padding: 0.75rem 1rem;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .clicked {
+        font-family: 'Circular Std';
+        font-weight: 400;
+        font-size: 0.8rem;
+        text-align: center;
+        text-decoration: none;
+        background: #CE9C47;
+      }
+
+      .logo {
+        height: 1.25rem;
+        width: auto;
+      }
+      h1 {
+        font-family: 'Circular Std';
+        font-weight: 600;
+        font-size: 2.5rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      h2 {
+        font-family: 'Circular Std';
+        font-weight: 600;
+        font-size: 1.25rem;
+        margin-top: 1.5rem;
+        margin-bottom: -0.5rem;
+        text-align: center;
+      }
+      p {
+        font-family: 'Circular Std';
+        font-weight: 400;
+        font-size: 1rem;
+        text-align: center;
+      }
+      .caption {
+        width: 60%;
+      }
+      .v-spacer {
+        font-size: 0.2rem;
+      }
+      div {
+        margin:0 auto;
+      }
+      .content {
+        text-align: center;
+      }
+      .inner {
+        display:inline-block;
+        align-content: center;
+      }
+
+      .legend {
+        font-family: 'Circular Std';
+        font-weight: 400;
+        font-size: 0.8rem;
+        text-align: center;
+        text-decoration: none;
+        background: #CE9C47;
+      }
+
+      /* Table styling */
+      table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        table-layout: fixed;
+        font-family: 'Circular Std';
+        font-weight: 400;
+        font-size: 0.8rem;
+        text-align: center;
+      }
+
+      table caption {
+        font-size: 1.5em;
+        margin: .5em 0 .75em;
+      }
+
+      table tr {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        padding: .35em;
+      }
+
+      table th,
+      table td {
+        padding: .625em;
+        text-align: center;
+      }
+
+      table th {
+        font-size: .85em;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+      }
+
+      @media screen and (max-width: 600px) {
+        table {
+          border: 0;
+        }
+
+        table caption {
+          font-size: 1.3em;
+        }
+
+        table thead {
+          border: none;
+          clip: rect(0 0 0 0);
+          height: 1px;
+          margin: -1px;
+          overflow: hidden;
+          padding: 0;
+          position: absolute;
+          width: 1px;
+        }
+
+        table tr {
+          border-bottom: 3px solid #ddd;
+          display: block;
+          margin-bottom: .625em;
+        }
+
+        table td {
+          border-bottom: 1px solid #ddd;
+          display: block;
+          font-size: .8em;
+          text-align: right;
+        }
+
+        table td::before {
+          /*
+          * aria-label has no advantage, it won't be read inside a table
+          content: attr(aria-label);
+          */
+          content: attr(data-label);
+          float: left;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+        table td:last-child {
+          border-bottom: 0;
+        }
+        }
+    </style>
+  </head>
+  <body>
+    <div id="foo" class="content">
+      <p><br></p>
+      <h1><img class="logo" src="https://www.pinclipart.com/picdir/big/46-461633_bench-logo-transparent-clipart.png"></img><br> NPS Score Analysis</h1>
+      <div id="sankey_multiple" style="height: 600px;" class="inner"></div>
+      <div class="v-spacer">&nbsp</div>
+      <div class="caption" id="caption"></div>
+      <p>
+        <a href="#CategoryDefinitions"><button class="legend">See Category Definitions</button></a>&nbsp
+        <a href="https://drive.google.com/file/d/1uQUF3f3vZs5TDFLhUGPK-IiehaHd9wR-/view?usp=sharing" target="_blank"><button class="legend">See Methodology</button></a>
+      </p>
+      <div class="inner">
+        <button class="contentButton" id="b1">Simple</button>
+        <button class="contentButton" id="b2">+ Themes</button>
+        <button class="contentButton" id="b3">+ Split Categories</button>
+        <button class="contentButton" id="b4">Split → Joint Categories</button>
+        <button class="contentButton" id="b5">Split + Joint Categories</button>
+      <div>
+      <p>&nbsp</p>
+    </div>
+    <div id="CategoryDefinitions"></div>
+    <section>
+      <table>
+        <h1>Category Definitions</h1>
+        <thead>
+          <tr>
+            <th scope="col">Theme</th>
+            <th scope="col">Category</th>
+            <th scope="col">Definition</th>
+            <th scope="col">Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Theme">Time payoff</td>
+            <td data-label="Category">Ease of use</td>
+            <td data-label="Definition">Client comments on ease of use of general service (not specific function or data) in a positive way. Must be in the context of their life.</td>
+            <td data-label="Example">“You all make it so easy for me to get my bookkeeping done! :)”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Time payoff</td>
+            <td data-label="Category">Minimal headspace</td>
+            <td data-label="Definition">Client comments on difference service has had on their peace of mind, or focuses on not having to thinking about the process of bookkeeping.</td>
+            <td data-label="Example">“Bench makes my small business books and taxes easy and stress-free” “Bench makes my life not only easier but better. I don’t worry about my bookkeeping anymore.” “well, it just simply takes care of a lot little paper work stuff, which I hate the most to do…” “ Removes a big headache for paperwork”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Time payoff</td>
+            <td data-label="Category">Reallocation</td>
+            <td data-label="Definition">Client comments on Bench allowing them to reallocate their time elsewhere</td>
+            <td data-label="Example">“Bench lets business owners focus on the service they provide and takes accounting into their own hands. Love it!”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Time payoff</td>
+            <td data-label="Category">Negative</td>
+            <td data-label="Definition">Client suggests negativity about the impact of Bench on their time or on their quality of life.</td>
+            <td data-label="Example">“It takes more work than it would if I hired an actual bookkeeper. It's not worth it.”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Clarity and order</td>
+            <td data-label="Category">Simplicity</td>
+            <td data-label="Definition">Client comments on how easy it is the understand/find/process their data or other technical information/function.</td>
+            <td data-label="Example">"Its easy, you have great graphics, easy to understand. You can look up your info at any time.”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Clarity and order</td>
+            <td data-label="Category">Accuracy</td>
+            <td data-label="Definition">Client comments on the accuracy of the books or satisfaction with the books from their CPA.</td>
+            <td data-label="Example">"My accountant like how the reports roll up.”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Clarity and order</td>
+            <td data-label="Category">Inaccuracy</td>
+            <td data-label="Definition">Any issues with the accuracy of the books.</td>
+            <td data-label="Example">“Same feedback as always. The amount of correction we have to do is too high.”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Clarity and order</td>
+            <td data-label="Category">Slow books</td>
+            <td data-label="Definition">Any issues with the timeliness of the books.</td>
+            <td data-label="Example">“our books have been delayed by months”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Confidence</td>
+            <td data-label="Category">AA</td>
+            <td data-label="Definition">Specific mention of an AA in a positive context, named or not.</td>
+            <td data-label="Example">“great service so far. especially Rahul. very helpful, knowledgeable. thanks for a great program.”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Confidence</td>
+            <td data-label="Category">Team</td>
+            <td data-label="Definition">Specific mention of the general “Bench team” or “customer service” in a positive context</td>
+            <td data-label="Example">“Wonderful and intelligent staff. Glad I found them”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Confidence</td>
+            <td data-label="Category">Response time</td>
+            <td data-label="Definition">The client comments positively about how quickly their queries are answered by the team.</td>
+            <td data-label="Example">“You all do an excellent job at getting back to the client immediately.”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Confidence</td>
+            <td data-label="Category">Virtue</td>
+            <td data-label="Definition">Specifically mention quality of the team which is irrelevant to the credibility of our bookkeeping/communications (friendly, kind, supportive, etc.)</td>
+            <td data-label="Example">“I love bench. Every person that I've worked within Bench has been so helpful, friendly, and actually cares. It's one of the best yearly investments in my business that I make.”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Confidence</td>
+            <td data-label="Category">Attrition</td>
+            <td data-label="Definition">Specific mention of AA attrition - bookkeepers changing frequently.</td>
+            <td data-label="Example">“People I interact with constantly changing, been through 4 now. And the xanned responses I get.”</td>
+          </tr>
+          <tr>
+            <td data-label="Theme">Confidence</td>
+            <td data-label="Category">Slow comms</td>
+            <td data-label="Definition">Any issues with the timeliness of communications.</td>
+            <td data-label="Example">“Need to be more responsive to provide yr updates!”</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>&nbsp</p>
+
+    </section>
+    <div class="overlay">
+      <div class="modelBox">
+        <div align="right">
+          <h1>⚠️🚨 WIP 🚨⚠️</h1>
+          <p class="p-WIP">
+            Hi, thanks for taking an interest in my little project!
+            <br><br>I have prepared this Sankey diagram as a proof of concept for a potential solution to a key problem in my role, but before you use it for any decisions you deserve to know that:
+            <br><br>1. This is still a <b>work-in-progress</b> and has not gone through anyone in analytics or been validated.
+            <br><br>2. <b>I am an idiot when it comes to data.</b> I have <b>zero</b> formal training in this and am likely to have made mistakes.
+            <br><br>Please keep this in mind if you even <b>think</b> about making decisions on the basis of this data.
+            <br><br>
+        </div>
+                  <a href="#" class="close scrollable-place"><button onclick="enableScroll()" class="close">Yeah yeah, I get it</button></a>
+      </div>
+    </div>
+
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $(".overlay").show();
+      $(".close").on('click', function() {
+        $(".overlay").hide();
+      });
+    });
+
+    function disableScroll() {
+            document.body.classList.add("stop-scrolling");
+        }
+
+        function enableScroll() {
+            document.body.classList.remove("stop-scrolling");
+        }
+
+    google.charts.load("current", {packages:["sankey"]});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+    // Set ArrayDataTable
+    var dataArray1 = [
+      ['From', 'To', 'Weight'],
+
+      [ 'NPS Promoters', 'Positive Category', 261 ],
+      [ 'NPS Promoters', 'Negative Category', 1 ],
+      [ 'NPS Passives & Detractors', 'Positive Category', 51 ],
+      [ 'NPS Passives & Detractors', 'Negative Category', 75 ]
+
+    ];
+
+    var dataArray2 = [
+      ['From', 'To', 'Weight'],
+
+      [ 'NPS Promoters', 'Time payoff [P]', 164 ],
+      [ 'NPS Promoters', 'Confidence [P]', 91 ],
+      [ 'NPS Promoters', 'Clarity and order [P]', 7 ],
+      [ 'NPS Passives & Detractors', 'Time payoff [N]', 32 ],
+      [ 'NPS Passives & Detractors', 'Confidence [N]', 51 ],
+      [ 'NPS Passives & Detractors', 'Clarity and order [N]', 43 ],
+
+      [ 'Time payoff [P]', 'Positive Category', 163 ],
+      [ 'Time payoff [P]', 'Negative Category', 1 ],
+      [ 'Confidence [P]', 'Positive Category', 91 ],
+      [ 'Clarity and order [P]', 'Positive Category', 7 ],
+      [ 'Time payoff [N]', 'Positive Category', 22 ],
+      [ 'Time payoff [N]', 'Negative Category', 10 ],
+      [ 'Confidence [N]', 'Positive Category', 24 ],
+      [ 'Confidence [N]', 'Negative Category', 27 ],
+      [ 'Clarity and order [N]', 'Positive Category', 5 ],
+      [ 'Clarity and order [N]', 'Negative Category', 38 ],
+
+    ];
+
+    var dataArray3 = [
+      ['From', 'To', 'Weight'],
+
+      [ 'NPS Promoters', 'Time payoff [P]', 164 ],
+      [ 'NPS Promoters', 'Confidence [P]', 91 ],
+      [ 'NPS Promoters', 'Clarity and order [P]', 7 ],
+      [ 'NPS Passives & Detractors', 'Time payoff [N]', 32 ],
+      [ 'NPS Passives & Detractors', 'Confidence [N]', 51 ],
+      [ 'NPS Passives & Detractors', 'Clarity and order [N]', 43 ],
+
+      [ 'Time payoff [P]', 'Ease of use [P]', 63 ],
+      [ 'Time payoff [P]', 'Minimal headspace [P]', 88 ],
+      [ 'Time payoff [P]', 'Reallocation [P]', 12 ],
+      [ 'Time payoff [P]', 'Negative [P]', 1 ],
+      [ 'Confidence [P]', 'AA [P]', 24 ],
+      [ 'Confidence [P]', 'Team [P]', 14 ],
+      [ 'Confidence [P]', 'Response time [P]', 20 ],
+      [ 'Confidence [P]', 'Virtue [P]', 33 ],
+      [ 'Clarity and order [P]', 'Simplicity [P]', 1 ],
+      [ 'Clarity and order [P]', 'Accuracy [P]', 6 ],
+
+      [ 'Time payoff [N]', 'Ease of use [N]', 8 ],
+      [ 'Time payoff [N]', 'Minimal headspace [N]', 13 ],
+      [ 'Time payoff [N]', 'Reallocation [N]', 1 ],
+      [ 'Time payoff [N]', 'Negative [N]', 10 ],
+      [ 'Confidence [N]', 'AA [N]', 8 ],
+      [ 'Confidence [N]', 'Team [N]', 4 ],
+      [ 'Confidence [N]', 'Response time [N]', 3 ],
+      [ 'Confidence [N]', 'Virtue [N]', 9 ],
+      [ 'Confidence [N]', 'Attrition [N]', 15 ],
+      [ 'Confidence [N]', 'Slow comms [N]', 12 ],
+      [ 'Clarity and order [N]', 'Simplicity [N]', 2 ],
+      [ 'Clarity and order [N]', 'Accuracy [N]', 3 ],
+      [ 'Clarity and order [N]', 'Inaccuracy [N]', 9 ],
+      [ 'Clarity and order [N]', 'Slow books [N]', 29 ],
+
+      [ 'Ease of use [N]', 'Positive Category', 8 ],
+      [ 'Ease of use [P]', 'Positive Category', 63 ],
+      [ 'Minimal headspace [N]', 'Positive Category', 13 ],
+      [ 'Minimal headspace [P]', 'Positive Category', 88 ],
+      [ 'Reallocation [N]', 'Positive Category', 1 ],
+      [ 'Reallocation [P]', 'Positive Category', 12 ],
+      [ 'Negative [N]', 'Negative Category', 10 ],
+      [ 'Negative [P]', 'Negative Category', 1 ],
+      [ 'AA [N]', 'Positive Category', 8 ],
+      [ 'AA [P]', 'Positive Category', 24 ],
+      [ 'Team [N]', 'Positive Category', 4 ],
+      [ 'Team [P]', 'Positive Category', 14 ],
+      [ 'Response time [N]', 'Positive Category', 3 ],
+      [ 'Response time [P]', 'Positive Category', 20 ],
+      [ 'Virtue [N]', 'Positive Category', 9 ],
+      [ 'Virtue [P]', 'Positive Category', 33 ],
+      [ 'Attrition [N]', 'Negative Category', 15 ],
+      [ 'Slow comms [N]', 'Negative Category', 12 ],
+      [ 'Simplicity [N]', 'Positive Category', 2 ],
+      [ 'Simplicity [P]', 'Positive Category', 1 ],
+      [ 'Accuracy [N]', 'Positive Category', 3 ],
+      [ 'Accuracy [P]', 'Positive Category', 6 ],
+      [ 'Inaccuracy [N]', 'Negative Category', 9 ],
+      [ 'Slow books [N]', 'Negative Category', 29 ]
+
+    ];
+
+
+    var dataArray4 = [
+      ['From', 'To', 'Weight'],
+
+      [ 'NPS Promoters', 'Time payoff [P]', 164 ],
+      [ 'NPS Promoters', 'Confidence [P]', 91 ],
+      [ 'NPS Promoters', 'Clarity and order [P]', 7 ],
+      [ 'NPS Passives & Detractors', 'Time payoff [N]', 32 ],
+      [ 'NPS Passives & Detractors', 'Confidence [N]', 51 ],
+      [ 'NPS Passives & Detractors', 'Clarity and order [N]', 43 ],
+
+      [ 'Time payoff [P]', 'Ease of use [J]', 63 ],
+      [ 'Time payoff [P]', 'Minimal headspace [J]', 88 ],
+      [ 'Time payoff [P]', 'Reallocation [J]', 12 ],
+      [ 'Time payoff [P]', 'Negative [J]', 1 ],
+      [ 'Confidence [P]', 'AA [J]', 24 ],
+      [ 'Confidence [P]', 'Team [J]', 14 ],
+      [ 'Confidence [P]', 'Response time [J]', 20 ],
+      [ 'Confidence [P]', 'Virtue [J]', 33 ],
+      [ 'Clarity and order [P]', 'Simplicity [J]', 1 ],
+      [ 'Clarity and order [P]', 'Accuracy [J]', 6 ],
+
+      [ 'Time payoff [N]', 'Ease of use [J]', 8 ],
+      [ 'Time payoff [N]', 'Minimal headspace [J]', 13 ],
+      [ 'Time payoff [N]', 'Reallocation [J]', 1 ],
+      [ 'Time payoff [N]', 'Negative [J]', 10 ],
+      [ 'Confidence [N]', 'AA [J]', 8 ],
+      [ 'Confidence [N]', 'Team [J]', 4 ],
+      [ 'Confidence [N]', 'Response time [J]', 3 ],
+      [ 'Confidence [N]', 'Virtue [J]', 9 ],
+      [ 'Confidence [N]', 'Attrition [J]', 15 ],
+      [ 'Confidence [N]', 'Slow comms [J]', 12 ],
+      [ 'Clarity and order [N]', 'Simplicity [J]', 2 ],
+      [ 'Clarity and order [N]', 'Accuracy [J]', 3 ],
+      [ 'Clarity and order [N]', 'Inaccuracy [J]', 9 ],
+      [ 'Clarity and order [N]', 'Slow books [J]', 29 ],
+
+      [ 'Ease of use [J]', 'Positive Category', 71 ],
+      [ 'Minimal headspace [J]', 'Positive Category', 101 ],
+      [ 'Reallocation [J]', 'Positive Category', 13 ],
+      [ 'Negative [J]', 'Negative Category', 11 ],
+      [ 'AA [J]', 'Positive Category', 32 ],
+      [ 'Team [J]', 'Positive Category', 18 ],
+      [ 'Response time [J]', 'Positive Category', 23 ],
+      [ 'Virtue [J]', 'Positive Category', 42 ],
+      [ 'Attrition [J]', 'Negative Category', 15 ],
+      [ 'Slow comms [J]', 'Negative Category', 12 ],
+      [ 'Simplicity [J]', 'Positive Category', 3 ],
+      [ 'Accuracy [J]', 'Positive Category', 9 ],
+      [ 'Inaccuracy [J]', 'Negative Category', 9 ],
+      [ 'Slow books [J]', 'Negative Category', 29 ]
+
+    ];
+
+    var dataArray5 = [
+      ['From', 'To', 'Weight'],
+
+      [ 'NPS Promoters', 'Time payoff [P]', 164 ],
+      [ 'NPS Promoters', 'Confidence [P]', 91 ],
+      [ 'NPS Promoters', 'Clarity and order [P]', 7 ],
+      [ 'NPS Passives & Detractors', 'Time payoff [N]', 32 ],
+      [ 'NPS Passives & Detractors', 'Confidence [N]', 51 ],
+      [ 'NPS Passives & Detractors', 'Clarity and order [N]', 43 ],
+
+      [ 'Time payoff [P]', 'Ease of use [P]', 63 ],
+      [ 'Time payoff [P]', 'Minimal headspace [P]', 88 ],
+      [ 'Time payoff [P]', 'Reallocation [P]', 12 ],
+      [ 'Time payoff [P]', 'Negative [P]', 1 ],
+      [ 'Confidence [P]', 'AA [P]', 24 ],
+      [ 'Confidence [P]', 'Team [P]', 14 ],
+      [ 'Confidence [P]', 'Response time [P]', 20 ],
+      [ 'Confidence [P]', 'Virtue [P]', 33 ],
+      [ 'Clarity and order [P]', 'Simplicity [P]', 1 ],
+      [ 'Clarity and order [P]', 'Accuracy [P]', 6 ],
+
+      [ 'Time payoff [N]', 'Ease of use [N]', 8 ],
+      [ 'Time payoff [N]', 'Minimal headspace [N]', 13 ],
+      [ 'Time payoff [N]', 'Reallocation [N]', 1 ],
+      [ 'Time payoff [N]', 'Negative [N]', 10 ],
+      [ 'Confidence [N]', 'AA [N]', 8 ],
+      [ 'Confidence [N]', 'Team [N]', 4 ],
+      [ 'Confidence [N]', 'Response time [N]', 3 ],
+      [ 'Confidence [N]', 'Virtue [N]', 9 ],
+      [ 'Confidence [N]', 'Attrition [N]', 15 ],
+      [ 'Confidence [N]', 'Slow comms [N]', 12 ],
+      [ 'Clarity and order [N]', 'Simplicity [N]', 2 ],
+      [ 'Clarity and order [N]', 'Accuracy [N]', 3 ],
+      [ 'Clarity and order [N]', 'Inaccuracy [N]', 9 ],
+      [ 'Clarity and order [N]', 'Slow books [N]', 29 ],
+
+      [ 'Ease of use [N]', 'Ease of use [J]', 8 ],
+      [ 'Ease of use [P]', 'Ease of use [J]', 63 ],
+      [ 'Minimal headspace [N]', 'Minimal headspace [J]', 13 ],
+      [ 'Minimal headspace [P]', 'Minimal headspace [J]', 88 ],
+      [ 'Reallocation [N]', 'Reallocation [J]', 1 ],
+      [ 'Reallocation [P]', 'Reallocation [J]', 12 ],
+      [ 'Negative [N]', 'Negative [J]', 10 ],
+      [ 'Negative [P]', 'Negative [J]', 1 ],
+      [ 'AA [N]', 'AA [J]', 8 ],
+      [ 'AA [P]', 'AA [J]', 24 ],
+      [ 'Team [N]', 'Team [J]', 4 ],
+      [ 'Team [P]', 'Team [J]', 14 ],
+      [ 'Response time [N]', 'Response time [J]', 3 ],
+      [ 'Response time [P]', 'Response time [J]', 20 ],
+      [ 'Virtue [N]', 'Virtue [J]', 9 ],
+      [ 'Virtue [P]', 'Virtue [J]', 33 ],
+      [ 'Attrition [N]', 'Attrition [J]', 15 ],
+      [ 'Slow comms [N]', 'Slow comms [J]', 12 ],
+      [ 'Simplicity [N]', 'Simplicity [J]', 2 ],
+      [ 'Simplicity [P]', 'Simplicity [J]', 1 ],
+      [ 'Accuracy [N]', 'Accuracy [J]', 3 ],
+      [ 'Accuracy [P]', 'Accuracy [J]', 6 ],
+      [ 'Inaccuracy [N]', 'Inaccuracy [J]', 9 ],
+      [ 'Slow books [N]', 'Slow books [J]', 29 ],
+
+      [ 'Ease of use [J]', 'Positive Category', 71 ],
+      [ 'Minimal headspace [J]', 'Positive Category', 101 ],
+      [ 'Reallocation [J]', 'Positive Category', 13 ],
+      [ 'Negative [J]', 'Negative Category', 11 ],
+      [ 'AA [J]', 'Positive Category', 32 ],
+      [ 'Team [J]', 'Positive Category', 18 ],
+      [ 'Response time [J]', 'Positive Category', 23 ],
+      [ 'Virtue [J]', 'Positive Category', 42 ],
+      [ 'Attrition [J]', 'Negative Category', 15 ],
+      [ 'Slow comms [J]', 'Negative Category', 12 ],
+      [ 'Simplicity [J]', 'Positive Category', 3 ],
+      [ 'Accuracy [J]', 'Positive Category', 9 ],
+      [ 'Inaccuracy [J]', 'Negative Category', 9 ],
+      [ 'Slow books [J]', 'Negative Category', 29 ]
+
+    ];
+
+
+     // Create and populate the data tables.
+     var data = [];
+     data[0] = google.visualization.arrayToDataTable(dataArray1); //NPS Score -> Positivity
+     data[1] = google.visualization.arrayToDataTable(dataArray2); //NPS Score -> Themes -> Positivity
+     data[2] = google.visualization.arrayToDataTable(dataArray3); //NPS Score -> Themes -> Split Categories -> Positivity
+     data[3] = google.visualization.arrayToDataTable(dataArray4); //NPS Score -> Themes -> Joint Categories -> Positivity
+     data[4] = google.visualization.arrayToDataTable(dataArray5); //NPS Score -> Themes -> Split Categories -> Joint Categories -> Positivity
+
+
+    // Set chart options
+
+    var clickedButtonColour = ['#71B191'];
+    var standardButtonColour = ['#098b8c'];
+
+    var boldcolors = ['#6CB2A5', '#CE9C47', '#71B191', '#D85E55',
+                     '#082D5E', '#C8A172'];
+
+    var mutecolors = ['#17457A'];
+
+    var chartWidth = window.innerWidth
+
+    var options = {
+      width: chartWidth * 0.8,
+
+      sankey: {
+        node: {
+          colors: boldcolors,
+          label: {
+             fontName: 'Circular Std',
+             fontSize: 10,
+             color: '#2F3034',
+             bold: true,
+             italic: false,
+         } }
+      },
+       tooltip: {
+         textStyle: {
+           color: '#2F3034',
+           fontName: 'Circular Std',
+           fontSize: 10,
+           bold: true,
+           italic: false
+         } }
+    };
+
+    var current = 0;
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.Sankey(
+        document.getElementById('sankey_multiple'));
+
+    var button = document.getElementById('b1'); //NPS Score -> Positivity
+    var button2 = document.getElementById('b2'); //NPS Score -> Themes -> Positivity
+    var button3 = document.getElementById('b3'); //NPS Score -> Themes -> Split Categories -> Positivity
+    var button4 = document.getElementById('b4'); //NPS Score -> Themes -> Joint Categories -> Positivity
+    var button5 = document.getElementById('b5'); //NPS Score -> Themes -> Split Categories -> Joint Categories -> Positivity
+
+    chart.draw(data[current], options);
+
+    //Caption
+    var dataArray1caption = "<h2>NPS Score | Positivity</h2><p>This diagram shows the relationship between the NPS score reflected by the customer and the overall positivity of their comment. The significant flow of Passives and Detractors to positive comments is an expected outcome as many 'Passive scorers' will leave positive comments.</p>"; //NPS Score -> Positivity
+    var dataArray2caption = "<h2>NPS Score | Themes | Positivity</h2><p>This diagram breaks down the NPS score to positivity relationship into three key themes; time payoff, confidence, and clarity and order. These themes are represented separately for perfect (promotor) and imperfect scores (passive/detractor) to show the difference in a user experience among these cohorts.</p>"; //NPS Score -> General Cat -> Positivity
+    var dataArray3caption = "<h2>NPS Score | Themes | Split Categories | Positivity</h2><p>This diagram further breaks down the three themes into subcategories, which once again are presented separately for perfect and imperfect NPS scores. This allows you to see which categories pull clients <b>up</b> towards positive comments, and <b>down</b> to negative comments at the end of the Sankey. It also allows you to see the weighting of these subcategories.</p>"; //NPS Score -> Category -> Split Buckets -> Positivity
+    var dataArray4caption = "<h2>NPS Score | Themes | Joint Categories | Positivity</h2><p>This diagram simplifies the previous Sankey, joining the split subcategories into joint ones in the penultimate step. This makes it less obvious what is pulling customers “up” or “down”, but makes those subcategories’ overall contributions to customer positivity/negativity clearer. </p>"; //NPS Score -> Category -> Joint Buckets -> Positivity
+    var dataArray5caption = "<h2>NPS Score | Themes | Split Categories | Joint Categories | Positivity</h2><p>This view includes every aforementioned category in one Sankey! In this view, split subcategories smooth out the transition to positivity/negativity through joint categories. This makes an overall evaluation of “up/down pull” easier while still giving you the option of evaluating the overall joint category contribution in the final node link.</p>"; //NPS Score -> Category -> Split Buckets -> Joint Buckets -> Positivity
+
+    document.getElementById("caption").innerHTML = dataArray1caption;
+
+    function drawChart() {
+          // Disabling the button while the chart is drawing.
+          button.disabled = true;
+          google.visualization.events.addListener(chart, 'ready',
+              function() {
+                button.disabled = false;
+              });
+
+          chart.draw(data[current], options);
+        }
+    drawChart();
+
+    function revertButton() {
+      document.getElementById("b1").style.background = standardButtonColour;
+      document.getElementById("b2").style.background = standardButtonColour;
+      document.getElementById("b3").style.background = standardButtonColour;
+      document.getElementById("b4").style.background = standardButtonColour;
+      document.getElementById("b5").style.background = standardButtonColour;
+    }
+
+    document.getElementById("b1").style.background = clickedButtonColour; //Change button colour on click
+
+   button.onclick = function() {
+     current = 0;
+     drawChart();
+     revertButton();
+     document.getElementById("caption").innerHTML = dataArray1caption; //Add new caption
+     document.getElementById("b1").style.background = clickedButtonColour; //Change button colour on click
+   }
+   button2.onclick = function() {
+    current = 1;
+    drawChart();
+    revertButton();
+    document.getElementById("caption").innerHTML = dataArray2caption; //Add new caption
+    button2.style.background = clickedButtonColour; //Change button colour on click
+   }
+   button3.onclick = function() {
+    current = 2;
+    drawChart();
+    revertButton();
+    document.getElementById("caption").innerHTML = dataArray3caption; //Add new caption
+    button3.style.background = clickedButtonColour; //Change button colour on click
+   }
+   button4.onclick = function() {
+    current = 3;
+    drawChart();
+    revertButton();
+    document.getElementById("caption").innerHTML = dataArray4caption; //Add new caption
+    button4.style.background = clickedButtonColour; //Change button colour on click
+   }
+   button5.onclick = function() {
+    current = 4;
+    drawChart();
+    revertButton();
+    document.getElementById("caption").innerHTML = dataArray5caption; //Add new caption
+    button5.style.background = clickedButtonColour; //Change button colour on click
+   }
+
+   }
+
+   $(window).resize(function(){
+      drawChart();
+    });
+
+</script>
+
+  </body>
+
+</html>
