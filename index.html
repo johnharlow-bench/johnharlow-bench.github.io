@@ -142,6 +142,11 @@
         font-size: 1rem;
         text-align: center;
       }
+      a {
+          color: black;
+          text-decoration: underline;
+      }
+
       .caption {
         width: 60%;
       }
@@ -388,7 +393,7 @@
             <br><br>1. &nbsp&nbspThis is still a <b>work-in-progress</b>. I will likely revise/change this page.
             <br><br>2. &nbsp&nbsp<b>I am an beginner when it comes to data.</b> My degree is in philosophy and I have <b>zero</b> formal training in this. I have gotten feeedback from more knowledgeable people, but I still think you should know that this isn't my background and I am learning.
             <br><br>2. &nbsp&nbspThis project is based on raw NPS data, so skews responses towards clients who have been at Bench for more than three months. New Bench clients will be underrepresented in this dataset.
-            <br><br>Please keep this in mind before you think about making decisions on the basis of this data. If you have a question, Slack or <a href="mailto:john.harlow@bench.co">email me</a>.
+            <br><br>Please keep this in mind before you think about making decisions on the basis of this data. If you have a question, <a href="https://bench.slack.com/team/U02S0GBRP1S" target="_blank">Slack</a> or <a href="mailto:john.harlow@bench.co">email me</a>.
             <br><br>
         </div>
                   <a href="#" class="close scrollable-place"><button onclick="enableScroll()" class="close">Yeah yeah, I get it</button></a>
@@ -397,20 +402,15 @@
 
 
     <script type="text/javascript">
+
     $(document).ready(function() {
       $(".overlay").show();
       $(".close").on('click', function() {
         $(".overlay").hide();
       });
+
     });
 
-    function disableScroll() {
-            document.body.classList.add("stop-scrolling");
-        }
-
-        function enableScroll() {
-            document.body.classList.remove("stop-scrolling");
-        }
 
     google.charts.load("current", {packages:["sankey"]});
     google.charts.setOnLoadCallback(drawChart);
