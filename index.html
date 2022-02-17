@@ -409,6 +409,7 @@
 
     <script type="text/javascript">
 
+    var current = 0;
 
     $(document).ready(function() {
       $(".overlay").show();
@@ -716,7 +717,6 @@
          } }
     };
 
-    var current = 0;
 
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.Sankey(
@@ -767,6 +767,8 @@
      revertButton();
      document.getElementById("caption").innerHTML = dataArray1caption; //Add new caption
      document.getElementById("b1").style.background = clickedButtonColour; //Change button colour on click
+     if (localStorageAvailable())
+         localStorage.defaultGraph = "1";
    }
    button2.onclick = function() {
     current = 1;
@@ -774,6 +776,8 @@
     revertButton();
     document.getElementById("caption").innerHTML = dataArray2caption; //Add new caption
     button2.style.background = clickedButtonColour; //Change button colour on click
+    if (localStorageAvailable())
+        localStorage.defaultGraph = "2";
    }
    button3.onclick = function() {
     current = 2;
@@ -781,6 +785,8 @@
     revertButton();
     document.getElementById("caption").innerHTML = dataArray3caption; //Add new caption
     button3.style.background = clickedButtonColour; //Change button colour on click
+    if (localStorageAvailable())
+        localStorage.defaultGraph = "3";
    }
    button4.onclick = function() {
     current = 3;
@@ -788,6 +794,8 @@
     revertButton();
     document.getElementById("caption").innerHTML = dataArray4caption; //Add new caption
     button4.style.background = clickedButtonColour; //Change button colour on click
+    if (localStorageAvailable())
+        localStorage.defaultGraph = "4";
    }
    button5.onclick = function() {
     current = 4;
@@ -795,13 +803,35 @@
     revertButton();
     document.getElementById("caption").innerHTML = dataArray5caption; //Add new caption
     button5.style.background = clickedButtonColour; //Change button colour on click
+    if (localStorageAvailable())
+        localStorage.defaultGraph = "5";
    }
 
    }
+
 
    $(window).resize(function(){
       drawChart();
     });
+
+
+  $(document).ready(function() {
+    if (localStorage.defaultGraph === "1") {
+      current = 0;
+    };
+    if (localStorage.defaultGraph === "2") {
+      current = 1;
+    };
+    if (localStorage.defaultGraph === "3") {
+      current = 2;
+    };
+    if (localStorage.defaultGraph === "4") {
+      current = 3;
+    };
+    if (localStorage.defaultGraph === "5") {
+      current = 4;
+    };
+  });
 
 
 </script>
