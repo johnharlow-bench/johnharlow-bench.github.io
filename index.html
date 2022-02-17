@@ -396,20 +396,45 @@
             <br><br><b>Please keep this in mind before you make decisions on the basis of this data.</b> If you have a question, <a href="https://bench.slack.com/team/U02S0GBRP1S" target="_blank">Slack</a> or <a href="mailto:john.harlow@bench.co">email me</a>.
             <br><br>
         </div>
-                  <a href="#" class="close scrollable-place"><button onclick="enableScroll()" class="close">Yeah yeah, I get it</button></a>
+                  <a href="#"><button class="close">Yeah yeah, I get it</button></a>
+                  <div class="checkbox" id="checkbox">
+                      <label>
+                          <p><input type="checkbox"></input> Don't show this again!</p>
+                      </label>
+                  </div>
+
       </div>
     </div>
 
 
     <script type="text/javascript">
 
+
     $(document).ready(function() {
       $(".overlay").show();
       $(".close").on('click', function() {
         $(".overlay").hide();
       });
-
+      if (localStorage.DoNotShowMessageAgain === "true") {
+          $(".overlay").hide();
+      };
     });
+
+
+    function localStorageAvailable() {
+        if (typeof(Storage) !== "undefined") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    $('#checkbox').click(function(){
+            if (localStorageAvailable())
+                localStorage.DoNotShowMessageAgain = "true";
+    })
+
 
 
     google.charts.load("current", {packages:["sankey"]});
@@ -777,6 +802,7 @@
    $(window).resize(function(){
       drawChart();
     });
+
 
 </script>
 
