@@ -66,6 +66,15 @@
         background: rgb(222, 22, 55, var(--alpha));
       }
 
+      .open {
+        font-family: 'Circular Std';
+        font-weight: 400;
+        font-size: 0.8rem;
+        text-align: center;
+        text-decoration: none;
+        background: rgb(222, 22, 55, var(--alpha));
+      }
+
       .p-WIP {
         text-align: left;
         font-size: 1rem;
@@ -380,6 +389,8 @@
           </tr>
         </tbody>
       </table>
+      <h2>Options<br><br></h2>
+      <button class="open">Show opening overlay again</button>
       <p>&nbsp</p>
 
     </section>
@@ -419,6 +430,11 @@
       if (localStorage.DoNotShowMessageAgain === "true") {
           $(".overlay").hide();
       };
+      $(".open").on('click', function() {
+        $(".overlay").show();
+        if (localStorageAvailable())
+            localStorage.DoNotShowMessageAgain = "false";
+      });
     });
 
 
@@ -749,7 +765,6 @@
 
           chart.draw(data[current], options);
         }
-    drawChart();
 
     function revertButton() {
       document.getElementById("b1").style.background = standardButtonColour;
@@ -761,51 +776,90 @@
 
     document.getElementById("b1").style.background = clickedButtonColour; //Change button colour on click
 
-   button.onclick = function() {
-     current = 0;
+    //Chart loading
+
+    function loadGraph1() {
+      current = 0;
+      drawChart();
+      revertButton();
+      document.getElementById("caption").innerHTML = dataArray1caption; //Add new caption
+      document.getElementById("b1").style.background = clickedButtonColour; //Change button colour on click
+      if (localStorageAvailable())
+          localStorage.defaultGraph = "1";
+    }
+
+    function loadGraph2() {
+     current = 1;
      drawChart();
      revertButton();
-     document.getElementById("caption").innerHTML = dataArray1caption; //Add new caption
-     document.getElementById("b1").style.background = clickedButtonColour; //Change button colour on click
+     document.getElementById("caption").innerHTML = dataArray2caption; //Add new caption
+     button2.style.background = clickedButtonColour; //Change button colour on click
      if (localStorageAvailable())
-         localStorage.defaultGraph = "1";
-   }
+         localStorage.defaultGraph = "2";
+    }
+
+    function loadGraph3() {
+     current = 2;
+     drawChart();
+     revertButton();
+     document.getElementById("caption").innerHTML = dataArray3caption; //Add new caption
+     button3.style.background = clickedButtonColour; //Change button colour on click
+     localStorage.defaultGraph = "3";
+    }
+
+    function loadGraph4() {
+     current = 3;
+     drawChart();
+     revertButton();
+     document.getElementById("caption").innerHTML = dataArray4caption; //Add new caption
+     button4.style.background = clickedButtonColour; //Change button colour on click
+     if (localStorageAvailable())
+         localStorage.defaultGraph = "4";
+    }
+
+    function loadGraph5() {
+     current = 4;
+     drawChart();
+     revertButton();
+     document.getElementById("caption").innerHTML = dataArray5caption; //Add new caption
+     button5.style.background = clickedButtonColour; //Change button colour on click
+     if (localStorageAvailable())
+         localStorage.defaultGraph = "5";
+    }
+
+   button.onclick = function() {
+     loadGraph1();
+    }
    button2.onclick = function() {
-    current = 1;
-    drawChart();
-    revertButton();
-    document.getElementById("caption").innerHTML = dataArray2caption; //Add new caption
-    button2.style.background = clickedButtonColour; //Change button colour on click
-    if (localStorageAvailable())
-        localStorage.defaultGraph = "2";
-   }
+    loadGraph2();
+    }
    button3.onclick = function() {
-    current = 2;
-    drawChart();
-    revertButton();
-    document.getElementById("caption").innerHTML = dataArray3caption; //Add new caption
-    button3.style.background = clickedButtonColour; //Change button colour on click
-    if (localStorageAvailable())
-        localStorage.defaultGraph = "3";
-   }
+    loadGraph3();
+    }
    button4.onclick = function() {
-    current = 3;
-    drawChart();
-    revertButton();
-    document.getElementById("caption").innerHTML = dataArray4caption; //Add new caption
-    button4.style.background = clickedButtonColour; //Change button colour on click
-    if (localStorageAvailable())
-        localStorage.defaultGraph = "4";
-   }
+    loadGraph4();
+    }
    button5.onclick = function() {
-    current = 4;
-    drawChart();
-    revertButton();
-    document.getElementById("caption").innerHTML = dataArray5caption; //Add new caption
-    button5.style.background = clickedButtonColour; //Change button colour on click
-    if (localStorageAvailable())
-        localStorage.defaultGraph = "5";
-   }
+    loadGraph5();
+    }
+
+    //Retain state of graph across refresh
+    if (localStorage.defaultGraph === "1") {
+      loadGraph1();
+    }
+    if (localStorage.defaultGraph === "2") {
+      loadGraph2();
+    }
+    if (localStorage.defaultGraph === "3") {
+      loadGraph3();
+    }
+    if (localStorage.defaultGraph === "4") {
+      loadGraph4();
+    }
+    if (localStorage.defaultGraph === "5") {
+      loadGraph5();
+    }
+
 
    }
 
@@ -815,26 +869,8 @@
     });
 
 
-  $(document).ready(function() {
-    if (localStorage.defaultGraph === "1") {
-      current = 0;
-    };
-    if (localStorage.defaultGraph === "2") {
-      current = 1;
-    };
-    if (localStorage.defaultGraph === "3") {
-      current = 2;
-    };
-    if (localStorage.defaultGraph === "4") {
-      current = 3;
-    };
-    if (localStorage.defaultGraph === "5") {
-      current = 4;
-    };
-  });
-
-
 </script>
+
 
   </body>
 
