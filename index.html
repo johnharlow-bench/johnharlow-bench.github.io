@@ -3,6 +3,7 @@
     <title>NPS Project</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://kit.fontawesome.com/395a0c52bb.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/699894/7268992/css/fonts.css" />
     <style>
       body {
@@ -114,6 +115,23 @@
 
       button:hover {
         --alpha: 1;
+      }
+
+      .button-link-add {
+        background: rgb(255, 255, 255, var(--alpha));
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: rgb(0, 0, 0, var(--alpha));
+        cursor: pointer;
+        display: inline-block;
+        font-family: 'Circular Std';
+        font-weight: 400;
+        font-size: 0.8rem;
+        line-height: 1rem;
+        margin: -1rem -0.75rem -1rem 0.5rem;
+        padding: 0.6rem 0.6rem;
+        text-align: center;
+        text-decoration: none;
       }
 
       .clicked {
@@ -270,6 +288,7 @@
     </style>
   </head>
   <body>
+    <div id="simple"></div><div id="themes"></div><div id="split"></div><div id="joint"></div><div id="all"></div>
     <div id="foo" class="content">
       <p><br></p>
       <h1><img class="logo" src="https://www.pinclipart.com/picdir/big/46-461633_bench-logo-transparent-clipart.png"></img><br> NPS Score Analysis</h1>
@@ -282,14 +301,21 @@
         <a href="https://docs.google.com/spreadsheets/d/1d559Nx9rjXjfmnMtQ9VzQQyUuMevW4E3/edit?usp=sharing&ouid=105076288758882648333&rtpof=true&sd=true" target="_blank"><button class="legend">See Raw Data</button></a>
       </p>
       <div class="inner">
-        <button class="contentButton" id="b1">Simple</button>
-        <button class="contentButton" id="b2">+ Themes</button>
-        <button class="contentButton" id="b3">+ Split Categories</button>
-        <button class="contentButton" id="b4">Split → Joint Categories</button>
-        <button class="contentButton" id="b5">Split + Joint Categories</button>
+        <button class="contentButton" id="b1">Simple
+          <a id="b1-l" class="button-link-add" onclick="navigator.clipboard.writeText('johnharlow-bench.github.io/#simple');"><i class="fa-solid fa-link"></i></a></button>
+        <button class="contentButton" id="b2">+ Themes
+          <a id="b2-l" class="button-link-add" onclick="navigator.clipboard.writeText('johnharlow-bench.github.io/#themes');"><i class="fa-solid fa-link"></i></a></button>
+        <button class="contentButton" id="b3">+ Split Categories
+          <a id="b3-l" class="button-link-add" onclick="navigator.clipboard.writeText('johnharlow-bench.github.io/#split');"><i class="fa-solid fa-link"></i></a></button>
+        <button class="contentButton" id="b4">Split → Joint Categories
+          <a id="b4-l" class="button-link-add" onclick="navigator.clipboard.writeText('johnharlow-bench.github.io/#joint');"><i class="fa-solid fa-link"></i></a></button>
+        <button class="contentButton" id="b5">Split + Joint Categories
+          <a id="b5-l" class="button-link-add" onclick="navigator.clipboard.writeText('johnharlow-bench.github.io/#all');"><i class="fa-solid fa-link"></i></a></button>
       <div>
       <p>&nbsp</p>
     </div>
+
+    <!-- CategoryDefinitions -->
     <div id="CategoryDefinitions"></div>
     <section>
       <table>
@@ -421,6 +447,28 @@
     <script type="text/javascript">
 
     var current = 0;
+
+    // When page is initially loaded, check the link for if it has been copied and return the same graph
+    if (window.location.href.indexOf("simple") > -1) {
+      if (localStorageAvailable())
+          localStorage.defaultGraph = "1";
+    }
+    if (window.location.href.indexOf("themes") > -1) {
+      if (localStorageAvailable())
+          localStorage.defaultGraph = "2";
+    }
+    if (window.location.href.indexOf("split") > -1) {
+      if (localStorageAvailable())
+          localStorage.defaultGraph = "3";
+    }
+    if (window.location.href.indexOf("joint") > -1) {
+      if (localStorageAvailable())
+          localStorage.defaultGraph = "4";
+    }
+    if (window.location.href.indexOf("all") > -1) {
+      if (localStorageAvailable())
+          localStorage.defaultGraph = "5";
+    }
 
     $(document).ready(function() {
       $(".overlay").show();
@@ -772,6 +820,15 @@
       document.getElementById("b3").style.background = standardButtonColour;
       document.getElementById("b4").style.background = standardButtonColour;
       document.getElementById("b5").style.background = standardButtonColour;
+      document.getElementById("b1-l").style.display="none";
+      document.getElementById("b2-l").style.display="none";
+      document.getElementById("b3-l").style.display="none";
+      document.getElementById("b4-l").style.display="none";
+      document.getElementById("b5-l").style.display="none";
+    }
+
+    function showStateLink() {
+      
     }
 
     document.getElementById("b1").style.background = clickedButtonColour; //Change button colour on click
@@ -782,6 +839,7 @@
       current = 0;
       drawChart();
       revertButton();
+      document.getElementById("b1-l").style.display="inline-block";
       document.getElementById("caption").innerHTML = dataArray1caption; //Add new caption
       document.getElementById("b1").style.background = clickedButtonColour; //Change button colour on click
       if (localStorageAvailable())
@@ -792,6 +850,7 @@
      current = 1;
      drawChart();
      revertButton();
+     document.getElementById("b2-l").style.display="inline-block";
      document.getElementById("caption").innerHTML = dataArray2caption; //Add new caption
      button2.style.background = clickedButtonColour; //Change button colour on click
      if (localStorageAvailable())
@@ -802,6 +861,7 @@
      current = 2;
      drawChart();
      revertButton();
+     document.getElementById("b3-l").style.display="inline-block";
      document.getElementById("caption").innerHTML = dataArray3caption; //Add new caption
      button3.style.background = clickedButtonColour; //Change button colour on click
      localStorage.defaultGraph = "3";
@@ -811,6 +871,7 @@
      current = 3;
      drawChart();
      revertButton();
+     document.getElementById("b4-l").style.display="inline-block";
      document.getElementById("caption").innerHTML = dataArray4caption; //Add new caption
      button4.style.background = clickedButtonColour; //Change button colour on click
      if (localStorageAvailable())
@@ -821,6 +882,7 @@
      current = 4;
      drawChart();
      revertButton();
+     document.getElementById("b5-l").style.display="inline-block";
      document.getElementById("caption").innerHTML = dataArray5caption; //Add new caption
      button5.style.background = clickedButtonColour; //Change button colour on click
      if (localStorageAvailable())
@@ -862,7 +924,6 @@
 
 
    }
-
 
    $(window).resize(function(){
       drawChart();
